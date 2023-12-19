@@ -1,10 +1,13 @@
 package com.example.ads
 
+import android.icu.number.NumberFormatter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ads.model.AdItemUi
 import com.example.ads.model.AdsContentUi
 import com.example.ads.model.AdsUi
+import com.example.repository.Constants
+import com.example.repository.DataResult
 import com.example.repository.favouriteads.FavouriteAdsRepository
 import com.example.repository.ads.AdsRepository
 import com.example.repository.ads.model.AdsResponseDto
@@ -14,9 +17,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
+import java.util.Locale
 
 class AdsViewModel(
     private val adsRepository: AdsRepository,
@@ -28,12 +34,12 @@ class AdsViewModel(
             field = value
         }
 
-    private val mutableRemoteAdsState: MutableStateFlow<AdsResponseDto?> = MutableStateFlow(null)
+    private val mutableRemoteAdsState: MutableStateFlow<DataResult<AdsResponseDto>?> = MutableStateFlow(null)
     private val mutableFilterFavouriteState: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     val adsState: StateFlow<AdsUi> = combine(
         mutableFilterFavouriteState,
-        mutableRemoteAdsState,
+        mutableRemoteAdsState.filterNotNull(),
         favouriteAdsRepository.getFavouritesFlow()
     ) { filterFavourites, remoteAds, favouriteAds ->
         val content = mapAdsState(filterFavourites, remoteAds, favouriteAds)
@@ -58,16 +64,20 @@ class AdsViewModel(
 
     private fun mapAdsState(
         filterFavourites: Boolean,
-        adsResponse: AdsResponseDto?,
+        adsResponse: DataResult<AdsResponseDto>,
         favouriteAds: List<FavouriteAdDb>
-    ): AdsContentUi = if (adsResponse != null) {
+    ): AdsContentUi = if (adsResponse is DataResult.Success) {
         val favouriteIds = favouriteAds.map { it.id }
-        val adsToShow = if (filterFavourites) {
-            adsResponse.items.filter { adsItem -> favouriteIds.contains(adsItem.id) }
+        val adsToShow = if (filterFavourites || adsResponse.isOfflineCache) {
+            adsResponse.data.items.filter { adsItem -> favouriteIds.contains(adsItem.id) }
         } else {
-            adsResponse.items
+            adsResponse.data.items
         }
-
+        val currencyFormatter = NumberFormat
+            .getCurrencyInstance(Locale("nb", "NO"))
+            .apply {
+                maximumFractionDigits = 0
+            }
         AdsContentUi.AdsContent(
             items = adsToShow
                 .map { adsItem ->
@@ -75,7 +85,14 @@ class AdsViewModel(
                         id = adsItem.id,
                         isFavourite = favouriteIds.contains(adsItem.id),
                         title = adsItem.description,
-                        favouriteItemType = adsItem.favourite?.itemType
+                        favouriteItemType = adsItem.favourite?.itemType,
+                        location = adsItem.location,
+                        price = adsItem.price?.total?.let { totalPrice ->
+                            currencyFormatter.format(totalPrice)
+                        },
+                        imageUrl = adsItem.image?.url?.let { imagePath ->
+                            Constants.IMAGE_BASE_URL + imagePath
+                        },
                     )
             }
         )

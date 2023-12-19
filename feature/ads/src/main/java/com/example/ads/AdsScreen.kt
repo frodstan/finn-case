@@ -1,8 +1,10 @@
 package com.example.ads
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -46,10 +48,20 @@ fun AdsScreen(viewModel: AdsViewModel = koinViewModel()) {
                     )
                 }
                 is AdsContentUi.Loading -> {
-                    LoadingIndicatorContent()
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        LoadingIndicatorContent()
+                    }
                 }
                 is AdsContentUi.Error -> {
-                    Text(text = stringResource(id = R.string.error))
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(text = stringResource(id = R.string.error))
+                    }
                 }
             }
         }
@@ -62,10 +74,14 @@ private fun AdsList(
     onItemFavourite: (AdItemUi) -> Unit,
 ) {
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(16.dp)
     ) {
-        items(state.items) { item ->
+        items(
+            items = state.items,
+            key = { item -> item.id },
+            contentType = { item -> item },
+        ) { item ->
             AdItem(
                 item = item,
                 onFavouriteClick = { onItemFavourite(item) }

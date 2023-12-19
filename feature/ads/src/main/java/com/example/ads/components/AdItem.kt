@@ -4,30 +4,37 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ads.R
 import com.example.ads.model.AdItemUi
+import com.example.style.components.FinnImage
 import com.example.style.theme.FinnCaseTheme
+import java.text.NumberFormat
+import java.util.Locale
 
 @Composable
 fun AdItem(
@@ -35,18 +42,38 @@ fun AdItem(
     item: AdItemUi,
     onFavouriteClick: () -> Unit,
 ) {
-    Surface(modifier = modifier) {
-        Column(modifier = Modifier.padding(16.dp)) {
+    Surface(
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.surface,
+        shadowElevation = 4.dp,
+        shape = MaterialTheme.shapes.large
+    ) {
+        Column(
+            modifier = Modifier.padding(bottom = 16.dp)
+        ) {
             AdItemImage(
-                imageUrl = null,
+                imageUrl = item.imageUrl,
                 isFavourite = item.isFavourite,
-                price = 100,
+                price = item.price,
                 onFavouriteClick = { onFavouriteClick() }
             )
+            Spacer(modifier = Modifier.height(16.dp))
 
-            Text(text = "Location")
+            if (item.location != null) {
+                Text(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    text = item.location,
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
             if (item.title != null) {
-                Text(text = item.title)
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 4.dp),
+                    text = item.title,
+                    style = MaterialTheme.typography.titleSmall
+                )
             }
         }
     }
@@ -56,12 +83,21 @@ fun AdItem(
 private fun AdItemImage(
     imageUrl: String?,
     isFavourite: Boolean,
-    price: Int?,
+    price: String?,
     onFavouriteClick: () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxWidth()) {
+    Box(
+        modifier = Modifier.fillMaxWidth()
+    ) {
         if (imageUrl != null) {
-            Box(modifier = Modifier)
+            FinnImage(
+                modifier = Modifier
+                    .heightIn(min = 128.dp)
+                    .fillMaxWidth(),
+                imageUrl = imageUrl,
+                contentDescription = null,
+                scaleCrop = true
+            )
         } else {
             Box(
                 modifier = Modifier
@@ -74,12 +110,17 @@ private fun AdItemImage(
         }
 
         IconButton(
-            modifier = Modifier.align(Alignment.TopEnd),
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(bottomStartPercent = 50)
+                ),
             onClick = { onFavouriteClick() }
         ) {
             AnimatedContent(
                 targetState = isFavourite,
-                label = "favourite_heart_icon_anim"
+                label = "favourite_heart_icon_anim",
             ) { favouriteIcon ->
                 if (favouriteIcon) {
                     Icon(
@@ -101,10 +142,14 @@ private fun AdItemImage(
                     .align(Alignment.BottomStart)
                     .background(
                         color = MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(percent = 100)
+                        shape = RoundedCornerShape(
+                            topEndPercent = 100
+                        )
                     )
-                    .padding(4.dp),
-                text = price.toString()
+                    .padding(vertical = 4.dp)
+                    .padding(start = 8.dp, end = 16.dp),
+                text = price,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
@@ -119,7 +164,10 @@ private fun DefaultPreview() {
                 id = "",
                 title = "This is a sample title for an item",
                 isFavourite = false,
-                favouriteItemType = null
+                favouriteItemType = null,
+                imageUrl = null,
+                location = "Oslo",
+                price = "100"
             ),
             onFavouriteClick = { }
         )

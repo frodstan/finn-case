@@ -19,4 +19,7 @@ data class AdItemUi(
     val favouriteItemType: String?,
     val isFavourite: Boolean,
     val title: String?,
+    val imageUrl: String?,
+    val location: String?,
+    val price: String?,
 )

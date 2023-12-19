@@ -30,7 +30,8 @@ fun AdsTopAppBar(
         modifier = Modifier
             .fillMaxWidth(),
         color = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        shadowElevation = 8.dp
     ) {
         Row(
             modifier = Modifier
