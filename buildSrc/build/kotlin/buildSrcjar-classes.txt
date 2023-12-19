@@ -1,1 +1,0 @@
-D:\Workspace\Finn\FinnCase\buildSrc\build\classes\kotlin\main\com\example\finncase\ConfigurationData.class;D:\Workspace\Finn\FinnCase\buildSrc\build\classes\kotlin\main\com\example\finncase\Dependencies.class;D:\Workspace\Finn\FinnCase\buildSrc\build\classes\kotlin\main\com\example\finncase\Versions.class
