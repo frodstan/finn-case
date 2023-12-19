@@ -17,3 +17,4 @@ rootProject.name = "FinnCase"
 include(":app")
 include(":library:repository")
 include(":feature:ads")
+include(":library:style")

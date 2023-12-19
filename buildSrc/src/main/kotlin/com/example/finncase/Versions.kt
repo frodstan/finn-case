@@ -16,4 +16,6 @@ object Versions {
     const val RETROFIT = "2.9.0"
     const val MOSHI = "1.14.0"
     const val MOSHI_CONVERTER_RETROFIT = "2.9.0"
+    const val OKHTTP3 = "4.12.0"
+    const val DATASTORE = "1.0.0"
 }

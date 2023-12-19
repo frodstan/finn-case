@@ -14,6 +14,6 @@ interface FavouriteAdDao {
     @Insert
     fun insertFavourite(favourite: FavouriteAdDb)
 
-    @Query("DELETE FROM FAVOURITE_AD WHERE :favouriteId == id")
-    fun removeFavourite(favouriteId: String)
+    @Delete
+    fun removeFavourite(favourite: FavouriteAdDb)
 }

@@ -42,12 +42,13 @@ android {
 }
 
 dependencies {
+    implementation(project(":library:style"))
     implementation(project(":library:repository"))
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.ANDROIDX_LIFECYCLE}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.ANDROIDX_LIFECYCLE}")
 
-
+    implementation("io.insert-koin:koin-androidx-compose:${Versions.KOIN}")
 
 
     implementation(platform("androidx.compose:compose-bom:${Versions.COMPOSE_BOM}"))

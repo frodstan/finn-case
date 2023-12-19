@@ -53,14 +53,17 @@ android {
 }
 
 dependencies {
-    implementation(project(":library:repository"))
     implementation(project(":feature:ads"))
+    implementation(project(":library:style"))
+    implementation(project(":library:repository"))
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.2")
 
     implementation("io.insert-koin:koin-android:${Versions.KOIN}")
+
+    implementation("com.squareup.moshi:moshi-kotlin:${Versions.MOSHI}")
 
     implementation(platform("androidx.compose:compose-bom:${Versions.COMPOSE_BOM}"))
     implementation("androidx.compose.ui:ui")

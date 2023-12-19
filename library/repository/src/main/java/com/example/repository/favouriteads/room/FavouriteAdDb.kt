@@ -7,4 +7,5 @@ import androidx.room.PrimaryKey
 data class FavouriteAdDb(
     @PrimaryKey
     val id: String,
+    val itemType: String?
 )

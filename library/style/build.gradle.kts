@@ -4,11 +4,10 @@ import com.example.finncase.Versions
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp")
 }
 
 android {
-    namespace = "com.example.repository"
+    namespace = "com.example.style"
     compileSdk = ConfigurationData.COMPILE_SDK
 
     defaultConfig {
@@ -34,20 +33,20 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.COMPOSE_COMPILER
+    }
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}")
+    implementation("androidx.core:core-ktx:1.12.0")
 
-    implementation("com.squareup.retrofit2:retrofit:${Versions.RETROFIT}")
-    implementation("com.squareup.retrofit2:converter-moshi:${Versions.MOSHI_CONVERTER_RETROFIT}")
-    implementation("com.squareup.moshi:moshi-kotlin:${Versions.MOSHI}")
-    ksp("com.squareup.moshi:moshi-kotlin-codegen:${Versions.MOSHI}")
-    implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP3}")
-
-    implementation("androidx.room:room-runtime:${Versions.ROOM}")
-    implementation("androidx.room:room-ktx:${Versions.ROOM}")
-    ksp("androidx.room:room-compiler:${Versions.ROOM}")
-
-    implementation("androidx.datastore:datastore-preferences:${Versions.DATASTORE}")
+    implementation(platform("androidx.compose:compose-bom:${Versions.COMPOSE_BOM}"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
 }

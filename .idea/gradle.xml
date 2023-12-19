@@ -26,6 +26,7 @@
             <option value="$PROJECT_DIR$/feature/ads" />
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/library/repository" />
+            <option value="$PROJECT_DIR$/library/style" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

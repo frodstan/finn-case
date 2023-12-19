@@ -26,8 +26,8 @@ data class AdDto(
 
 @JsonClass(generateAdapter = true)
 data class PriceDto(
-    val value: Int,
-    val total: Int,
+    val value: Int?,
+    val total: Int?,
 )
 
 @JsonClass(generateAdapter = true)
