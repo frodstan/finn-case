@@ -12,12 +12,9 @@ import org.koin.dsl.module
 
 object KoinModules {
     fun getModules() = listOf(
-        appModule(),
         adsModule(),
         repositoryModule()
     )
-
-    private fun appModule() = module {  }
 
     private fun adsModule() = module {
         viewModel {

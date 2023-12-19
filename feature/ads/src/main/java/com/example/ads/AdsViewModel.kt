@@ -1,6 +1,5 @@
 package com.example.ads
 
-import android.icu.number.NumberFormatter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ads.model.AdItemUi
@@ -8,9 +7,9 @@ import com.example.ads.model.AdsContentUi
 import com.example.ads.model.AdsUi
 import com.example.repository.Constants
 import com.example.repository.DataResult
-import com.example.repository.favouriteads.FavouriteAdsRepository
 import com.example.repository.ads.AdsRepository
 import com.example.repository.ads.model.AdsResponseDto
+import com.example.repository.favouriteads.FavouriteAdsRepository
 import com.example.repository.favouriteads.room.FavouriteAdDb
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,8 +33,10 @@ class AdsViewModel(
             field = value
         }
 
-    private val mutableRemoteAdsState: MutableStateFlow<DataResult<AdsResponseDto>?> = MutableStateFlow(null)
-    private val mutableFilterFavouriteState: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private val mutableRemoteAdsState: MutableStateFlow<DataResult<AdsResponseDto>?> =
+        MutableStateFlow(null)
+    private val mutableFilterFavouriteState: MutableStateFlow<Boolean> =
+        MutableStateFlow(false)
 
     val adsState: StateFlow<AdsUi> = combine(
         mutableFilterFavouriteState,
