@@ -34,8 +34,8 @@ fun AdsScreen(viewModel: AdsViewModel = koinViewModel()) {
         Column(modifier = Modifier.padding(paddingValues)) {
             val adsState by viewModel.adsState.collectAsState()
             AdsTopAppBar(
-                title = stringResource(id = R.string.ads_for_you_title),
-                filterFavourites = adsState.filterFavourites,
+                title = stringResource(id = R.string.ads_title),
+                filterFavourites = adsState.isFavouritesFiltered,
                 onFilterFavouritesClick = {
                     viewModel.onFilterFavouritesClick()
                 }

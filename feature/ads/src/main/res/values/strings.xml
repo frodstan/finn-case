@@ -3,10 +3,10 @@
     <string name="ads_missing_image_text">Missing image</string>
     <string name="content_description_favourite">Favourite</string>
     <string name="content_description_not_favourite">Not favourite</string>
-    <string name="ads_for_you_title">Ads for you</string>
     <string name="loading">loading</string>
     <string name="error">Error</string>
     <string name="content_description_ads_top_bar_filter_favourite">Favourite ads</string>
     <string name="content_description_ads_top_bar_filter_all">All ads</string>
     <string name="ads_detail_view_not_implemented">Detail view is not implemented yet</string>
+    <string name="ads_title">Ads</string>
 </resources>

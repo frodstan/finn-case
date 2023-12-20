@@ -89,7 +89,7 @@ private fun AdItemImage(
         if (imageUrl != null) {
             FinnImage(
                 modifier = Modifier
-                    .heightIn(min = 128.dp)
+                    .heightIn(min = 128.dp) //TODO: Use fields from backend to set aspectRatio()
                     .fillMaxWidth(),
                 imageUrl = imageUrl,
                 contentDescription = null,

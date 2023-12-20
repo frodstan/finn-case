@@ -27,12 +27,12 @@ object KoinModules {
 
     private fun repositoryModule() = module {
         single { ApiService() }
-        single {
+        factory {
             val apiService: ApiService = get()
             AdsCache(androidContext(), apiService.moshi)
         }
 
-        single {
+        factory {
             val apiService: ApiService = get()
             AdsRepository(
                 api = apiService.createApi(),

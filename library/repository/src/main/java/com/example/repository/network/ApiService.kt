@@ -17,7 +17,7 @@ class ApiService {
         )
         .build()
 
-    val moshi = Moshi.Builder()
+    val moshi: Moshi = Moshi.Builder()
         .addLast(KotlinJsonAdapterFactory())
         .build()
 

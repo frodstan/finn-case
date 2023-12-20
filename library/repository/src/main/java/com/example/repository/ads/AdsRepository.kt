@@ -12,11 +12,11 @@ class AdsRepository(
 ) {
     suspend fun fetchAds(): DataResult<AdsResponseDto> = withContext(Dispatchers.IO) {
         try {
-            val adsResponse = requireNotNull(api.getAds())
-            adsCache.store(adsResponse)
+            val adsResponse = api.getAds()
+            adsCache.putCache(adsResponse)
             DataResult.Success(adsResponse, isOfflineCache = false)
         } catch (err: Throwable) {
-            val cache = adsCache.restore()
+            val cache = adsCache.getCache()
             if (cache != null) {
                 DataResult.Success(data = cache, isOfflineCache = true)
             } else {

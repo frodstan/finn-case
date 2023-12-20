@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.ads.model.AdItemUi
 import com.example.ads.model.AdsContentUi
 import com.example.ads.model.AdsUi
-import com.example.repository.Constants
+import com.example.repository.RepositoryConstants
 import com.example.repository.DataResult
 import com.example.repository.ads.AdsRepository
 import com.example.repository.ads.model.AdsResponseDto
@@ -45,17 +45,19 @@ class AdsViewModel(
     ) { filterFavourites, remoteAds, favouriteAds ->
         val content = mapAdsState(filterFavourites, remoteAds, favouriteAds)
         AdsUi(
-            filterFavourites = filterFavourites,
+            isFavouritesFiltered = filterFavourites,
             content = content
         )
     }
-    .stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Eagerly,
-        initialValue = AdsUi(false, AdsContentUi.Loading)
-    )
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = AdsUi(false, AdsContentUi.Loading)
+        )
 
-    init { refreshAds() }
+    init {
+        refreshAds()
+    }
 
     private fun refreshAds() {
         refreshJob = viewModelScope.launch {
@@ -76,9 +78,8 @@ class AdsViewModel(
         }
         val currencyFormatter = NumberFormat
             .getCurrencyInstance(Locale("nb", "NO"))
-            .apply {
-                maximumFractionDigits = 0
-            }
+            .apply { maximumFractionDigits = 0 }
+
         AdsContentUi.AdsContent(
             items = adsToShow
                 .map { adsItem ->
@@ -92,10 +93,11 @@ class AdsViewModel(
                             currencyFormatter.format(totalPrice)
                         },
                         imageUrl = adsItem.image?.url?.let { imagePath ->
-                            Constants.IMAGE_BASE_URL + imagePath
+                            RepositoryConstants.IMAGE_BASE_URL + imagePath
                         },
                     )
-            }
+                },
+            isOffline = adsResponse.isOfflineCache
         )
     } else {
         AdsContentUi.Error

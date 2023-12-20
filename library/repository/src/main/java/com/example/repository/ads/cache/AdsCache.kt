@@ -21,7 +21,7 @@ class AdsCache(
     private val adsCacheKey get() = stringPreferencesKey("ads")
     private val adsAdapter by lazy { moshi.adapter(AdsResponseDto::class.java) }
 
-    suspend fun store(responseDto: AdsResponseDto) {
+    suspend fun putCache(responseDto: AdsResponseDto) {
         try {
             val stringRepresentation = adsAdapter.toJson(responseDto)
             context.adsDatastore.edit { preferences ->
@@ -32,7 +32,7 @@ class AdsCache(
         }
     }
 
-    suspend fun restore(): AdsResponseDto? = context.adsDatastore
+    suspend fun getCache(): AdsResponseDto? = context.adsDatastore
         .data
         .mapLatest {
             val jsonCache = it[adsCacheKey]
