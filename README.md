@@ -3,7 +3,7 @@
 ## Testing
 **Make sure to build the app in release mode when testing it.** 
 
-Jetpack Compose runs a lot slower in debug mode. R8 is also enabled in release mode, which speeds up performance a bit more
+Jetpack Compose runs a lot slower in debug mode.
 
 ## Solution
 ### Tech stack
@@ -32,6 +32,7 @@ If I had more time to complete the project, there are a few more things to do
 - Create better abstractions wrapping around 3rd party libraries. I'm thinking mostly about Coil in this case, so it would be easier to swap them out later if needed.
 - Better error handling. The error handling in the app is very minimal. It should not crash, but if there is an error fetching data it would just display error. We should show more information about what went wrong, and provide the user with a way around it if possible (refresh for example)
 - More testing and better implementation for accessibility services like screen readers.
+- Enable R8
 
 
 I had fun with the project, and I hope you're satisfied with the solution I have come up with.
