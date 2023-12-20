@@ -2,6 +2,7 @@ package com.example.ads
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -75,6 +76,7 @@ fun AdsScreen(viewModel: AdsViewModel = koinViewModel()) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun AdsList(
     state: AdsContentUi.AdsContent,
@@ -91,6 +93,7 @@ private fun AdsList(
             contentType = { item -> item },
         ) { item ->
             AdItem(
+                modifier = Modifier.animateItemPlacement(),
                 item = item,
                 onItemClick = { onItemClick(item) },
                 onFavouriteClick = { onItemFavourite(item) }
