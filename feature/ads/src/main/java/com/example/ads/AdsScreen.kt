@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.ads.components.AdItem
+import com.example.ads.components.OfflineRefreshIndicator
 import com.example.ads.model.AdItemUi
 import com.example.ads.model.AdsContentUi
 import org.koin.androidx.compose.koinViewModel
@@ -52,6 +54,9 @@ fun AdsScreen(viewModel: AdsViewModel = koinViewModel()) {
                         },
                         onItemFavourite = { item ->
                             viewModel.onItemFavourite(item)
+                        },
+                        onRefreshClick = {
+                            viewModel.refreshAds()
                         }
                     )
                 }
@@ -82,11 +87,23 @@ private fun AdsList(
     state: AdsContentUi.AdsContent,
     onItemClick: (AdItemUi) -> Unit,
     onItemFavourite: (AdItemUi) -> Unit,
+    onRefreshClick: () -> Unit,
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(16.dp)
     ) {
+        if (state.isOffline) {
+            item {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    OfflineRefreshIndicator(
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        onRefreshClick = { onRefreshClick() }
+                    )
+                }
+            }
+        }
+
         items(
             items = state.items,
             key = { item -> item.id },

@@ -59,7 +59,7 @@ class AdsViewModel(
         refreshAds()
     }
 
-    private fun refreshAds() {
+    fun refreshAds() {
         refreshJob = viewModelScope.launch {
             mutableRemoteAdsState.value = adsRepository.fetchAds()
         }
